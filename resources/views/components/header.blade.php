@@ -263,9 +263,16 @@
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#"
-                    class="dropdown-item has-icon text-danger">
+                    class="dropdown-item has-icon text-danger"
+                    onclick="loggingOut()">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
+                <form action="{{ route('logout') }}"
+                    id="logout-form"
+                    method="POST"
+                    style="display: none;">
+                    @csrf
+                </form>
             </div>
         </li>
     </ul>
