@@ -11,7 +11,7 @@
 @section('main')
     <div class="card card-primary">
         <div class="card-header">
-            <h4>Register</h4>
+            <h4>Daftar</h4>
         </div>
 
         <div class="card-body">
@@ -60,8 +60,43 @@
                             {{ $message }}
                         </div>
                     @enderror
+                    <div id="pwindicator" class="pwindicator">
+                        <div class="bar"></div>
+                        <div class="label"></div>
+                    </div>
+                </div>
+
+                {{-- Password confirm --}}
+                <div class="form-group">
+                    <label for="password-confirmation">Password Confirmation</label>
+                    <input type="password"
+                        id="password-confirmation"
+                        name="password_confirmation"
+                        class="form-control @error('password_confirmation') is-invalid @enderror">
+                    @error('password_confirmation')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                {{-- Button --}}
+                <div class="form-group">
+                    <button type="submit"
+                        class="btn btn-primary btn-lg btn-block">
+                    Daftar
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    {{-- JS Libraries --}}
+    <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
+    <script src="{{ asset('library/jquery.pwstrength/jquery.pwstrength.min.js') }}"></script>
+
+    {{-- Page Specific JS File --}}
+    <script src="{{ asset('js/page/auth-register.js') }}"></script>
+@endpush
