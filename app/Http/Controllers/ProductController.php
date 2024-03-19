@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -30,7 +31,7 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View|Factory
     {
         $categories = Category::all();
 
@@ -40,25 +41,11 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     $arrayCategory = Category::pluck('id')->all();
-    //     dd($request->validate([
-    //         'name' => 'required',
-    //         'category' => ['required', Rule::in($arrayCategory)],
-    //         'price' => 'required',
-    //         'stock' => 'required',
-    //         'description' => 'max:255',
-    //         'status' => 'boolean',
-    //         'favorite' => 'boolean',
-    //     ]));
-    // }
-
-    public function store(ProductStoreRequest $request, ProductService $productService)
+    public function store(ProductStoreRequest $request, ProductService $productService): RedirectResponse
     {
         $newProduct = $productService->store($request->all());
 
-        return to_route('products.index')->with('success', "Product {$newProduct} successfully created.");
+        return to_route('products.index')->with('success', "Product {$newProduct->name} successfully created.");
     }
 
     /**
@@ -72,7 +59,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Product $product): View|Factory
     {
         $data = array();
         $data['product'] = $product;
@@ -84,9 +71,11 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product): void
+    public function update(ProductStoreRequest $request, Product $product, ProductService $productService): RedirectResponse
     {
-        //
+        $updatedProduct = $productService->update($request->all(), $product);
+
+        return to_route('products.index')->with('success', "Product {$updatedProduct->name} successfully updated.");
     }
 
     /**
