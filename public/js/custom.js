@@ -6,3 +6,10 @@
  */
 
 "use strict";
+
+let cleaveCurrency = new Cleave(".currency", {
+    numeral: true,
+    delimiter: ".",
+    numeralDecimalMark: ",",
+    numeralThousandsGroupStyle: "thousand",
+});
